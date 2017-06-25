@@ -1,9 +1,11 @@
 package badbucket
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -100,4 +102,19 @@ func IsBucketWriteable(s *session.Session, bucketName string) (bool, error) {
 		}
 	}
 	return true, nil
+}
+
+func DetectBucketRegion(bucketName string) string {
+	var bucketURL bytes.Buffer
+	bucketURL.WriteString("http://")
+	bucketURL.WriteString(bucketName)
+	bucketURL.WriteString(".s3.amazonaws.com/")
+
+	resp, err := http.Get(bucketURL.String())
+	if err != nil {
+		log.Fatalf("Unable to determine region. Exiting...")
+	}
+	region := resp.Header["X-Amz-Bucket-Region"][0]
+
+	return region
 }

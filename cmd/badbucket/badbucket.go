@@ -25,8 +25,10 @@ func main() {
 	flag.Parse()
 	// Initialize a session that the SDK will use to load configuration,
 	// credentials, and region from the shared config file. (~/.aws/config).
+	region := badbucket.DetectBucketRegion(*bucket)
+	log.Printf("Region detected for bucket %s: %s", *bucket, region)
 	svc := createS3Session(regionPtr)
-	sess, _ := session.NewSession(&aws.Config{Region: aws.String(regionPtr)})
+	sess, _ := session.NewSession(&aws.Config{Region: aws.String(region)})
 	list, err := badbucket.IsBucketListable(svc, *bucket)
 	if err != nil {
 		log.Fatalf("Error: %s", err)

@@ -58,3 +58,11 @@ func TestAreFilesReadable(t *testing.T) {
 	}
 
 }
+
+func TestDetectBucketRegion(t *testing.T) {
+	log.Printf("Testing region detection")
+	region := DetectBucketRegion("badbucket-test")
+	if region != "eu-west-1" {
+		t.Fail()
+	}
+}

@@ -14,12 +14,13 @@ go install github.com/zuBux/badbucket/cmd/...
 # Usage
 
 ```
-badbucket -b <bucket_name> -r <AWS region>
+badbucket -b <bucket_name>
 ```
+badbucket will automatically detect the region of your bucket
 
 # Coming up next
 
 * ~~Implement writable check~~
 * Parse list of s3 buckets
-* Automated region detection
+* ~~Automatic region detection~~
 * Concurrent checks
