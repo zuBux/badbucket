@@ -3,7 +3,7 @@
 
 * Is the bucket listable?
 * Are files readable?
-* Is the bucket writeable? (soon)
+* Is the bucket writeable?
 
 **badbucket** is written in Go and uses the [AWS SDK](https://aws.amazon.com/sdk-for-go/)
 
