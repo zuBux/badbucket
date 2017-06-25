@@ -19,7 +19,7 @@ badbucket -b <bucket_name> -r <AWS region>
 
 # Coming up next
 
-* Implement writable check
+* ~~Implement writable check~~
 * Parse list of s3 buckets
 * Automated region detection
 * Concurrent checks

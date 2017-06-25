@@ -14,7 +14,7 @@ var TestBucket = "yourbucketname"
 func TestIsBucketListable(t *testing.T) {
 	log.Printf("Testing if bucket %s is listable", TestBucket)
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("us-west-1")},
+		Region: aws.String("eu-west-1")},
 	)
 	if err != nil {
 		log.Panicf("Could not create session: %s", err)
@@ -29,7 +29,7 @@ func TestIsBucketListable(t *testing.T) {
 func TestIsBucketListableNonExistent(t *testing.T) {
 	log.Printf("Testing handling of non-existent buckets")
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("us-west-1")},
+		Region: aws.String("eu-west-1")},
 	)
 	if err != nil {
 		log.Panicf("Could not create session: %s", err)
@@ -46,7 +46,7 @@ func TestAreFilesReadable(t *testing.T) {
 	log.Printf("Testing readable bucket")
 
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("us-west-1")},
+		Region: aws.String("eu-west-1")},
 	)
 	if err != nil {
 		log.Panicf("Could not create session: %s", err)

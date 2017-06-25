@@ -38,6 +38,12 @@ func main() {
 		log.Fatalf("Error: %s", err)
 	}
 	fmt.Printf("Readable: %t\n", read)
+
+	write, err := badbucket.IsBucketWriteable(sess, *bucket)
+	if err != nil {
+		log.Fatalf("Error: %s", err)
+	}
+	fmt.Printf("Writeable: %t\n", write)
 }
 
 func createS3Session(region string) *s3.S3 {

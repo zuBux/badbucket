@@ -1,6 +1,8 @@
 package badbucket
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -44,6 +46,9 @@ func AreFilesReadable(s *session.Session, bucketName string) (bool, error) {
 			}
 		}
 	}
+	if resp.Contents == nil {
+		return false, fmt.Errorf("No files in bucket")
+	}
 	testKey := resp.Contents[0].Key
 	file, err := os.Create(*testKey)
 
@@ -66,6 +71,33 @@ func AreFilesReadable(s *session.Session, bucketName string) (bool, error) {
 	return true, nil
 }
 
-// func isBucketWriteable(s *session.Session) bool {
-//
-// }
+func IsBucketWriteable(s *session.Session, bucketName string) (bool, error) {
+	// Create an uploader with the session and default options
+	uploader := s3manager.NewUploader(s)
+	d1 := []byte("thiswasgeneratedbybadbycket\n")
+	err := ioutil.WriteFile("/tmp/buckettest.txt", d1, 0644)
+
+	f, err := os.Open("/tmp/buckettest.txt")
+	defer f.Close()
+	if err != nil {
+		return false, fmt.Errorf("failed to open file %q, %v", f, err)
+	}
+
+	// Upload the file to S3.
+	_, err = uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String(bucketName),
+		Key:    aws.String("badbucketpoc.txt"),
+		Body:   f,
+	})
+	if err != nil {
+		if awsErr, ok := err.(awserr.Error); ok {
+			// Get error details
+			if awsErr.Code() == "AccessDenied" {
+				return false, nil
+			} else {
+				return false, err
+			}
+		}
+	}
+	return true, nil
+}
